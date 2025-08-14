@@ -17,10 +17,12 @@ namespace PETSHOP.Controllers
         public IActionResult Index()
         {
             var products = _dbContext.Products.Take(3).ToList();
+            var count = _dbContext.Products.ToList().Count;
 
             var model = new ShopViewModel
             {
-                Products = products
+                Products = products,
+                ProductCount = count
             };
 
             return View(model);
