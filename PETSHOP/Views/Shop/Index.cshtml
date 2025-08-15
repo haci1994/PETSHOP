@@ -50,7 +50,7 @@
                               New
                             </div> -->
                             <div class="card position-relative">
-                                <a href="single-product.html"><img src="~/images/@item.CoverImageUrl" class="img-fluid rounded-4" alt="image"></a>
+                                <a asp-controller="ProductDetails" asp-action="Index" asp-route-id="@item.Id"><img src="~/images/@item.CoverImageUrl" class="img-fluid rounded-4" alt="image"></a>
                                 <div class="card-body p-0">
                                     <a href="single-product.html">
                                         <h3 class="card-title pt-4 m-0">@item.Name</h3>
@@ -333,7 +333,7 @@
             for(let product of data){
                 productRow.innerHTML += `<div class="col-md-4 my-4">
                     <div class="card position-relative">
-                        <a href="single-product.html"><img src="images/${product.coverImageUrl}" class="img-fluid rounded-4" alt="image"></a>
+                        <a href="/ProductDetails/Index/${product.id}"><img src="images/${product.coverImageUrl}" class="img-fluid rounded-4" alt="image"></a>
                         <div class="card-body p-0">
                             <a href="single-product.html">
                                 <h3 class="card-title pt-4 m-0">${product.name}</h3>
