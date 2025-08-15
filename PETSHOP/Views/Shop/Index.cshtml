@@ -69,10 +69,10 @@
                                         <h3 class="secondary-font text-primary">$@item.Price</h3>
 
                                         <div class="d-flex flex-wrap mt-3">
-                                            <a href="#" class="btn-cart me-3 px-4 pt-3 pb-3">
+                                            <a asp-controller="Basket" asp-action="AddToBasket" asp-route-id="@item.Id" class="btn-cart me-3 px-4 pt-3 pb-3">
                                                 <h5 class="text-uppercase m-0">Add to Cart</h5>
                                             </a>
-                                            <a href="#" class="btn-wishlist px-4 pt-3 ">
+                                            <a asp-controller="Wishlist" asp-action="AddToWishlist" asp-route-id="@item.Id" class="btn-wishlist px-4 pt-3 ">
                                                 <iconify-icon icon="fluent:heart-28-filled" class="fs-5"></iconify-icon>
                                             </a>
                                         </div>
@@ -352,10 +352,10 @@
                                 <h3 class="secondary-font text-primary">$${product.price}</h3>
 
                                 <div class="d-flex flex-wrap mt-3">
-                                    <a href="#" class="btn-cart me-3 px-4 pt-3 pb-3">
+                                    <a href="/Basket/AddToBasket/${product.id}" class="btn-cart me-3 px-4 pt-3 pb-3">
                                         <h5 class="text-uppercase m-0">Add to Cart</h5>
                                     </a>
-                                    <a href="#" class="btn-wishlist px-4 pt-3 ">
+                                    <a href="/Wishlist/AddToWishlist/${product.id}" class="btn-wishlist px-4 pt-3 ">
                                         <iconify-icon icon="fluent:heart-28-filled" class="fs-5"></iconify-icon>
                                     </a>
                                 </div>

@@ -6,5 +6,6 @@ namespace PETSHOP.Models
     {
         public WebsiteInfo SiteInfo { get; set; } = null!;
         public List<Social> Socials { get; set; } = null!;
+        public List<Product> BasketItems { get; set; } = [];
     }
 }
