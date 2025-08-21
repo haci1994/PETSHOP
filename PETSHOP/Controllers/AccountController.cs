@@ -47,18 +47,18 @@ namespace PETSHOP.Controllers
                     ModelState.AddModelError("", item.Description);
                 }
 
-               return View(user);
+                return View(user);
             }
 
             var adminRoleResult = await _roleManager.CreateAsync(new IdentityRole
-            { 
+            {
                 Name = "Admin"
             });
 
-            if(adminRoleResult.Succeeded)
+            if (adminRoleResult.Succeeded)
             {
                 await _userManager.AddToRoleAsync(myuser, "Admin");
-            }    
+            }
 
             return RedirectToAction("Index", "Home");
         }
@@ -71,12 +71,12 @@ namespace PETSHOP.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel user)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View(user);
             }
 
-           
+
             var loggedUser = await _userManager.FindByNameAsync(user.Username);
 
             if (loggedUser == null)
@@ -86,7 +86,14 @@ namespace PETSHOP.Controllers
                 return View(user);
             }
 
-            var result = await _signInManager.PasswordSignInAsync(loggedUser, user.Password, user.RememberMe,false);
+            var result = await _signInManager.PasswordSignInAsync(loggedUser, user.Password, user.RememberMe, true);
+
+            if (result.IsLockedOut)
+            {
+                ModelState.AddModelError("", "You are banned for a while");
+
+                return View(user);
+            }
 
             if (!result.Succeeded)
             {

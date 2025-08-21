@@ -7,7 +7,7 @@ namespace PETSHOP
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public async static Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -26,6 +26,11 @@ namespace PETSHOP
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireUppercase = false;
                 options.Password.RequireLowercase = false;
+                
+                options.Lockout.AllowedForNewUsers = true;
+                options.Lockout.MaxFailedAccessAttempts = 3;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(3);
+
 
             })
             .AddEntityFrameworkStores<AppDbContext>()
@@ -36,7 +41,7 @@ namespace PETSHOP
             using (var scope = app.Services.CreateScope())
             {
                 var dataInitializer = scope.ServiceProvider.GetRequiredService<DataInitializer>();
-                dataInitializer.SeedData();
+                await dataInitializer.SeedData();
             }
 
             // Configure the HTTP request pipeline.
@@ -58,7 +63,7 @@ namespace PETSHOP
                 name: "default",
                 pattern: "{controller=Home}/{action=Index}/{id?}");
 
-            app.Run();
+            await app.RunAsync();
         }
     }
 }
