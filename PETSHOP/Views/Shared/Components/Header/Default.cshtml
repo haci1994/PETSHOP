@@ -101,9 +101,6 @@
                     <span class="fs-6 secondary-font text-muted">Email</span>
                     <h5 class="mb-0">@info.Mail</h5>
                 </div>
-
-
-
             </div>
         </div>
     </div>
@@ -127,7 +124,6 @@
                             <iconify-icon icon="mdi:heart" class="fs-4"></iconify-icon>
                         </a>
                     </li>
-
                     <li>
                         <a href="#" class="mx-3" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart"
                            aria-controls="offcanvasCart">
@@ -181,6 +177,31 @@
                         <ul class="d-flex justify-content-end list-unstyled m-0">
 
                             <li>
+                                @if (!User.Identity!.IsAuthenticated)
+                                {
+                                    <a class="mx-3" asp-controller="Account" asp-action="Login">
+                                        <iconify-icon icon="healthicons:person" class="fs-4"></iconify-icon>
+                                    </a>
+                                } else
+                                {
+                                    <a class="mx-3" asp-controller="Home" asp-action="Index">
+                                        <iconify-icon icon="healthicons:person" class="fs-4"></iconify-icon>
+                                    </a>
+                                }
+
+                                @if (User.Identity!.IsAuthenticated)
+                                {
+                                    <span>@User.Identity.Name!.ToUpper()</span>
+                                    <form method="post" asp-controller="Account" asp-action="Logout" style="display:inline">
+                                        <button type="submit" class="btn-danger btn" style="padding: 5px 15px">Logout</button>
+                                    </form>
+                                } else
+                                {
+                                    <a asp-controller="Account" asp-action="Login">Login</a>
+                                }
+                            </li>
+
+                            <li>
                                 <a asp-controller="Wishlist" asp-action="Index" class="mx-3">
                                     <iconify-icon icon="mdi:heart" class="fs-4"></iconify-icon>
                                 </a>
@@ -190,7 +211,7 @@
                                    aria-controls="offcanvasCart">
                                     <iconify-icon icon="mdi:cart" class="fs-4 position-relative"></iconify-icon>
                                     <span class="position-absolute translate-middle badge rounded-circle bg-primary pt-2">
-                                        03
+                                        @products.Count
                                     </span>
                                 </a>
                             </li>

@@ -1,0 +1,42 @@
+﻿@model RegisterViewModel;
+
+<div class="tab-pane fade active show" id="nav-register" role="tabpanel" aria-labelledby="nav-register-tab">
+    <div class="col-lg-8 offset-lg-2 mt-5">
+
+       <form method="post" class="form-group flex-wrap ">
+            <div class="form-input col-lg-6 my-4 m-auto">
+
+                
+                <input asp-for="UserName"
+                       placeholder="Your user name" class="form-control mb-3 p-4">
+
+                
+                <input asp-for="FullName"
+                       placeholder="Your full name" class="form-control mb-3 p-4">
+
+               
+                <input asp-for="Email"
+                       placeholder="Your email address" class="form-control mb-3 p-4">
+
+               
+                <input asp-for="Password" placeholder="Set your password"
+                       class="form-control mb-3 p-4" aria-describedby="passwordHelpBlock">
+
+
+                <input asp-for="ConfirmPassword" placeholder="Retype your password"
+                       class="form-control mb-3 p-4" aria-describedby="passwordHelpBlock">
+                       
+
+                
+                <div asp-validation-summary="All"></div>
+
+
+                <div class="d-grid my-3">
+                    <button type="submit" href="#" class="btn btn-dark btn-lg rounded-1">Sign Up</button>
+                </div>
+
+            </div>
+        </form>
+
+    </div>
+</div>

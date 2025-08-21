@@ -1,5 +1,7 @@
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PETSHOP.DataContext;
+using PETSHOP.DataContext.Entities;
 
 namespace PETSHOP
 {
@@ -16,7 +18,26 @@ namespace PETSHOP
 
             builder.Services.AddDbContext<AppDbContext>(option => option.UseSqlServer(connection));
 
+            builder.Services.AddScoped<DataInitializer>();
+
+            builder.Services.AddIdentity<AppUser, IdentityRole>(options =>
+            {
+                options.Password.RequiredLength = 4;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+
+            })
+            .AddEntityFrameworkStores<AppDbContext>()
+            .AddDefaultTokenProviders();
+
             var app = builder.Build();
+
+            using (var scope = app.Services.CreateScope())
+            {
+                var dataInitializer = scope.ServiceProvider.GetRequiredService<DataInitializer>();
+                dataInitializer.SeedData();
+            }
 
             // Configure the HTTP request pipeline.
             if (!app.Environment.IsDevelopment())
