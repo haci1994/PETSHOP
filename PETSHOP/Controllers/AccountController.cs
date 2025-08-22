@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PETSHOP.DataContext.Entities;
 using PETSHOP.Models;
+using System.Threading.Tasks;
 
 namespace PETSHOP.Controllers
 {
@@ -116,6 +118,40 @@ namespace PETSHOP.Controllers
             await _signInManager.SignOutAsync();
 
             return RedirectToAction("Index", "Home");
+        }
+
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                ModelState.AddModelError("", "Xetali cehd");
+                return View(model);
+            }
+
+            var user = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            if (user == null) return BadRequest();
+
+            var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword,model.NewPassword);
+
+            if(!result.Succeeded)
+            {
+                foreach(var item  in result.Errors)
+                {
+                    ModelState.AddModelError("", item.Description);
+                }
+
+                return View(model);
+            }
+
+            return RedirectToAction(nameof(Login));
         }
     }
 }

@@ -182,19 +182,19 @@
                                     <a class="mx-3" asp-controller="Account" asp-action="Login">
                                         <iconify-icon icon="healthicons:person" class="fs-4"></iconify-icon>
                                     </a>
-                                } else
-                                {
-                                    <a class="mx-3" asp-controller="Home" asp-action="Index">
-                                        <iconify-icon icon="healthicons:person" class="fs-4"></iconify-icon>
-                                    </a>
                                 }
 
                                 @if (User.Identity!.IsAuthenticated)
                                 {
-                                    <span>@User.Identity.Name!.ToUpper()</span>
-                                    <form method="post" asp-controller="Account" asp-action="Logout" style="display:inline">
-                                        <button type="submit" class="btn-danger btn" style="padding: 5px 15px">Logout</button>
-                                    </form>
+
+                                    <select id="account" class="nav-link">
+                                        <option value="" disabled selected hidden>@User.Identity.Name</option>
+                                        <option value="change">Change Password</option>
+                                        <option value="logout">Logout</option>
+                                    </select>
+
+                                    <form id="logoutForm" method="post" asp-controller="Account" asp-action="Logout"></form>
+
                                 } else
                                 {
                                     <a asp-controller="Account" asp-action="Login">Login</a>
@@ -230,3 +230,18 @@
 
     </div>
 </header>
+
+<script>
+    document.getElementById('account').addEventListener('change', function () {
+      const v = this.value
+      this.selectedIndex = 0;
+      this.blur();
+
+      
+      if (v === 'change') {
+        window.location.href = '/Account/ChangePassword';
+      } else if (v === 'logout') {
+        document.getElementById('logoutForm').submit();
+      }
+    });
+</script>
